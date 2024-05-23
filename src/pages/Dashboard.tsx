@@ -123,10 +123,17 @@ const Dashboard = () => {
                         </p>
                       </div>
 
-                      <p className="text-sm font-normal text-gray-400 mt-2">
-                        <span className="text-black">Expire date:</span>{" "}
-                        {item.expiry_date}
-                      </p>
+                      <div className="flex lg:flex-row flex-col items-center justify-between lg:gap-4 gap-2">
+                        <p className="text-sm font-normal text-gray-400 mt-2">
+                          <span className="text-black">Expire date:</span>{" "}
+                          {item.expiry_date}
+                        </p>
+                        <p className="text-sm font-normal text-gray-400 mt-2">
+                          <span className="text-black">Last update:</span>{" "}
+                          {item.updated_at}
+                        </p>
+                      </div>
+
                       <p className="lg:text-base text-[0.95em] mt-2">
                         {item.description}
                       </p>

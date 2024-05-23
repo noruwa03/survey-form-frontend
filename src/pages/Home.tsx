@@ -5,9 +5,9 @@ const Home = () => {
   return (
     <>
       <NavBar />
-      <section className="relative hero-bg inset-0 h-screen w-full bg-[#0B1120] text-white bg-[size:60px_60px]">
+      <section className="relative hero-bg inset-0 sm:h-full h-screen w-full bg-[#0B1120] text-white bg-[size:60px_60px]">
         <div className="lg:px-28 sm:px-8 px-4 lg:py-36 py-36 gap-8">
-          <div className="lg:w-3/5 w-full mx-auto lg:mt-24 mt-16 text-center">
+          <div className="lg:w-3/5 w-full mx-auto lg:mt-24 mt-14 text-center">
             <h1 className="lg:text-5xl text-4xl font-black text-white">
               Create Survey forms with ease!
             </h1>
