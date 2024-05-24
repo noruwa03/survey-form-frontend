@@ -150,15 +150,20 @@ const Edit = () => {
     setData(del);
   };
 
+  const timeFormat = new Date().getTimezoneOffset() * 60000;
+  const localISOTime = new Date(Date.now() - timeFormat)
+    .toISOString()
+    .slice(0, -1);
+
   const submitHandler = async (evt: any) => {
     evt.preventDefault();
     const formData = {
       ...details,
       active: active,
       questions: data,
+      updated_at: localISOTime,
     };
 
-    console.log(formData);
     editSurvey(formData, id);
   };
 

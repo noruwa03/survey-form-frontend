@@ -7,6 +7,8 @@ import Loader from "../components/Loader/Loader";
 type UserInput = {
   email: string;
   password: string;
+  created_at: string;
+  updated_at: string;
 };
 
 interface MyStore {
@@ -29,9 +31,16 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
+  const timeFormat = new Date().getTimezoneOffset() * 60000;
+  const localISOTime = new Date(Date.now() - timeFormat)
+    .toISOString()
+    .slice(0, -1);
+
   const userInput: UserInput = {
     email: "",
     password: "",
+    created_at: localISOTime,
+    updated_at: localISOTime,
   };
 
   const [input, setInput] = useState(userInput);
@@ -48,7 +57,6 @@ const Signup = () => {
 
   const submitHandler = (evt: FormEvent) => {
     evt.preventDefault();
-
     signUpWithEmailAndPassword(input);
   };
 

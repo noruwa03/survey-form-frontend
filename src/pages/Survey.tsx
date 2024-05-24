@@ -121,6 +121,11 @@ const Survey = () => {
     });
   };
 
+  const timeFormat = new Date().getTimezoneOffset() * 60000;
+  const localISOTime = new Date(Date.now() - timeFormat)
+    .toISOString()
+    .slice(0, -1);
+
   const submitHandler = async (evt: any) => {
     evt.preventDefault();
     const formData = {
@@ -129,6 +134,8 @@ const Survey = () => {
       active: active,
       questions: data,
       user_id: surveyDataById.data.user_id,
+      created_at: localISOTime,
+      updated_at: localISOTime,
     };
 
     answerSurvey(formData);
