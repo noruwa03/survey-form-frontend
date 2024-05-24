@@ -5,6 +5,8 @@ import useStoreAuth from "../store/features/auth";
 import Loader from "../components/Loader/Loader";
 import Error from "../components/Modals/Error";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 interface MyStore {
   data: any[];
@@ -42,6 +44,41 @@ const Dashboard = () => {
   const deleteSurvey = async (id: string | number) => {
     removeSurvey(id);
   };
+
+  const url = window.location.origin;
+
+   const share = async (title: string, description: string, id:string) => {
+     if (!navigator.share) return;
+     const data = {
+       title: title,
+       text: description,
+       url: `${url}/survey/${id}`,
+     };
+
+     try {
+       return await navigator.share(data);
+     } catch (e) {
+       console.error(e);
+     }
+   };
+
+   async function copyToClipBoard(text: any) {
+     try {
+       return await navigator.clipboard.writeText(text);
+     } catch (err) {
+       console.log(err)
+     }
+   }
+
+   const handleCopyClick = (id: string | any) => {
+     copyToClipBoard(`${url}/survey/${id}`)
+       .then(() => {
+         toast.success("Survey copied")
+       })
+       .catch((err) => {
+         console.log(err);
+       });
+   };
 
   useEffect(() => {
     if (user.length == 0) {
@@ -84,7 +121,7 @@ const Dashboard = () => {
             >
               Sign out
             </button>
-            <div className="lg:w-3/5 w-full flex flex-col items-end justify-end lg:gap-2 gap-4">
+            <div className="lg:w-3/5 w-full flex lg:flex-col flex-col-reverse items-end justify-end lg:gap-2 gap-4">
               {" "}
               <div>
                 <span className="font-semibold text-xl">Welcome</span>{" "}
@@ -123,20 +160,59 @@ const Dashboard = () => {
                         </p>
                       </div>
 
-                      <div className="flex lg:flex-row flex-col items-center justify-between lg:gap-4 gap-2">
-                        <p className="text-sm font-normal text-gray-400 mt-2">
+                      <div className="flex lg:flex-row flex-col lg:items-center items-start justify-between lg:gap-4 gap-2 mt-3">
+                        <p className="text-sm font-normal text-gray-400 lg:mt-2">
                           <span className="text-black">Expire date:</span>{" "}
                           {item.expiry_date}
                         </p>
-                        <p className="text-sm font-normal text-gray-400 mt-2">
+                        <p className="text-sm font-normal text-gray-400 lg:mt-2">
                           <span className="text-black">Last update:</span>{" "}
                           {item.updated_at}
                         </p>
                       </div>
 
-                      <p className="lg:text-base text-[0.95em] mt-2">
+                      <p className="lg:text-base text-[0.95em] mt-2 mb-1">
                         {item.description}
                       </p>
+                      <div
+                        onClick={() =>
+                          share(item.title, item.description, item.survey_id)
+                        }
+                        className="flex flex-row items-center justify-start lg:gap-6 gap-4 mt-3"
+                      >
+                        <div className="cursor-pointer text-sm font-normal text-gray-400 mt-2 flex flex-row items-center justify-start gap-1">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-send"
+                            viewBox="0 0 16 16"
+                          >
+                            <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                          </svg>
+                          Share
+                        </div>
+                        <div
+                          onClick={() => handleCopyClick(item.survey_id)}
+                          className="cursor-pointer text-sm font-normal text-gray-400 mt-2 flex flex-row items-center justify-start gap-1"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-copy"
+                            viewBox="0 0 16 16"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"
+                            />
+                          </svg>
+                          Copy
+                        </div>
+                      </div>
                       <div className="flex flex-row flex-wrap items-center justify-end lg:gap-5 gap-3 text-sm lg:mt-3 mt-6">
                         <Link
                           to={`/response/${item.survey_id}`}

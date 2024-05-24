@@ -9,7 +9,6 @@ const NavBar = () => {
   const menuHandler = () => {
     menu.current?.classList.toggle("hamburger-toggle");
     navItem.current?.classList.toggle("hidden");
-    document.body.classList.toggle("overflow-hidden");
   };
 
   const toggleMenuHandler = () => {

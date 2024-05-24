@@ -109,6 +109,7 @@ const ViewSurveyAnswer = () => {
                   <div className="mt-4">
                     {item.question_type === "Textarea" && (
                       <>
+                        <h3 className="font-medium text-base mb-3">Answer</h3>
                         {[...item.option_data].map(
                           (data: any, index: number) => (
                             <Fragment key={index}>
@@ -120,6 +121,7 @@ const ViewSurveyAnswer = () => {
                     )}
                     {item.question_type === "Text" && (
                       <>
+                        <h3 className="font-medium text-base mb-3">Answer</h3>
                         {[...item.option_data].map(
                           (data: any, index: number) => (
                             <Fragment key={index}>

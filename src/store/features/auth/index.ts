@@ -43,7 +43,7 @@ const useStoreAuth = create(
               loading: false,
               error: error.response.data.message,
             });
-            toast.error("Failed to sign up");
+            toast.error("Sign up not successful");
             console.error("Error fetching data:", error.response.data.message);
           }
         },
@@ -62,7 +62,7 @@ const useStoreAuth = create(
               loading: false,
               error: error.response.data.message,
             });
-            toast.error("Failed to sign in");
+            toast.error("Sign in not successful");
             console.error("Error fetching data:", error.response.data.message);
           }
         },
